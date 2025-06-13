@@ -1,3 +1,5 @@
+// webedeve/frontend/src/stores/useProductStore.js
+
 import { create } from "zustand";
 import toast from "react-hot-toast";
 import axios from "../lib/axios";
@@ -33,7 +35,9 @@ export const useProductStore = create((set) => ({
 		}
 	},
 	fetchAllProducts: async () => {
-		set({ loading: true });
+		// INÍCIO DA ALTERAÇÃO
+		set({ products: [], loading: true });
+		// FIM DA ALTERAÇÃO
 		try {
 			const response = await axios.get("/products");
 			set({ products: response.data.products, loading: false });
@@ -43,7 +47,9 @@ export const useProductStore = create((set) => ({
 		}
 	},
 	fetchProductsByCategory: async (category) => {
-		set({ loading: true });
+		// INÍCIO DA ALTERAÇÃO
+		set({ products: [], loading: true });
+		// FIM DA ALTERAÇÃO
 		try {
 			const response = await axios.get(`/products/category/${category}`);
 			set({ products: response.data.products, loading: false });
@@ -82,7 +88,9 @@ export const useProductStore = create((set) => ({
 		}
 	},
 	fetchFeaturedProducts: async () => {
-		set({ loading: true });
+		// INÍCIO DA ALTERAÇÃO
+		set({ products: [], loading: true });
+		// FIM DA ALTERAÇÃO
 		try {
 			const response = await axios.get("/products/featured");
 			set({ products: response.data, loading: false });

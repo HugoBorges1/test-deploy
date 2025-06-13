@@ -1,11 +1,15 @@
+// webedeve/frontend/src/pages/CategoryPage.jsx
+
 import { useEffect } from "react";
 import { useProductStore } from "../stores/useProductStore";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
+import LoadingSpinner from "../components/LoadingSpinner"; // 1. Importe o LoadingSpinner
 
 const CategoryPage = () => {
-	const { fetchProductsByCategory, products } = useProductStore();
+	// 2. Obtenha o 'loading' da store
+	const { fetchProductsByCategory, products, loading } = useProductStore();
 
 	const { category } = useParams();
 
@@ -13,7 +17,11 @@ const CategoryPage = () => {
 		fetchProductsByCategory(category);
 	}, [fetchProductsByCategory, category]);
 
-	console.log("products:", products);
+	// 3. Adicione a lógica de carregamento
+	if (loading) {
+		return <LoadingSpinner />;
+	}
+
 	return (
 		<div className='min-h-screen'>
 			<div className='relative z-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-0'>
@@ -33,7 +41,7 @@ const CategoryPage = () => {
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.8, delay: 0.2 }}
 					>
-						{products?.length === 0 && (
+						{products?.length === 0 && !loading && ( // 4. Condição extra para a mensagem
 							<h2 className='text-3xl font-semibold text-gray-300 text-center col-span-full'>
 								Não há produtos nessa categoria
 							</h2>
